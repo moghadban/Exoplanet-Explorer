@@ -1,0 +1,105 @@
+{#
+This is the base template used as the application layout which contains the
+common elements and decorates all the other templates.
+See https://symfony.com/doc/current/templates.html#template-inheritance-and-layouts
+#}
+<!DOCTYPE html>
+<html lang="{{ app.locale }}" dir="{{ is_rtl() ? 'rtl' : 'ltr' }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="view-transition" content="same-origin">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>{% block title %}Exoplanet Exploration Dashboard{% endblock %}</title>
+
+    <link rel="shortcut icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+
+    {#
+    Those two blocks defines frontend entrypoint for CSS and JavaScript assets
+    See https://symfony.com/doc/current/frontend.html
+    #}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/planets_custom.css') }}">
+    {% endblock %}
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+</head>
+
+<body id="{% block body_id %}{% endblock %}" class="{{ is_rtl(app.locale) ? 'rtl' }}">
+
+{% block header %}
+    {% set _route = app.current_route %}
+    <header>
+        <nav class="navbar navbar-dark" style="background: rgba(255, 255, 255, 0.05);opacity: 0.85">
+            <div class="container">
+                <a class="navbar-brand" href="{{ path('homepage') }}">
+                    Homepage
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#appNavbar"
+                        aria-controls="appNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="appNavbar">
+                    <ul class="navbar-nav">
+
+                        <li class="nav-item">
+                            <a href="{{ path('planet_statistics') }}" class="nav-link">Planet Statistics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ path('planet_habitable') }}" class="nav-link">Planet Habitability</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+{% endblock %}
+<div class="container body-container">
+    <h1 class="header_h1">Exoplanet Exploration Dashboard</h1>
+    {% block body %}
+        <div class="row">
+            <div id="main" class="col-sm-12">
+                {{ include('default/_flash_messages.html.twig') }}
+                {% block main %}{% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+</div>
+
+{% block footer %}
+    <footer style="background: rgba(255, 255, 255, 0.05);opacity: 0.85">
+        <div class="container" style="background: transparent">
+            <div class="row text-center" style="background: transparent">
+                <div class="col-md-12 text-white text-center" style="background: transparent;">
+                    Exoplanet Data Explorer • Powered by
+                    <a href="https://exoplanetarchive.ipac.caltech.edu/" target="_blank" class="text-center text-light">
+                        NASA Exoplanet Archive</a>
+                </div>
+                <br>
+                <div class="col-md-12 text-white text-center" style="background: transparent;">
+                    This project incorporates elements from the <a href="https://github.com/symfony/demo"
+                                                                   target="_blank" class="text-light">
+                        Symfony Demo</a>, which is licensed under
+                    the <a href="https://en.wikipedia.org/wiki/MIT_License" target="_blank" class="text-light">
+                        {{ 'mit_license'|trans }}.</a><br>
+                    Original source: &copy; {{ 'now'|date('Y') }} - <a href="https://symfony.com/"
+                                                                       target="_blank" class="text-light">
+                        The Symfony Project .</a> All new modifications and additions are my own.
+                    <a rel="noopener noreferrer" target="_blank" href="http://moghadban.me"
+                       title="Mojahed Ghadban Portfolio" class="text-light"> &copy; Mojahed Ghadban (Mojo)</a>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+
+{#
+It's not mandatory to set the timezone in format_datetime(). This is done to
+avoid errors when the 'intl' PHP extension is not available and the application
+is forced to use the limited "intl polyfill", which only supports UTC and GMT
+#}
+<!-- Page rendered on {{ 'now'|format_datetime('long', 'long', '', 'UTC') }} -->
+</body>
+</html>

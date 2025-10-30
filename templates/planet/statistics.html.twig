@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Exoplanet Statistics{% endblock %}
+
+{% block body %}
+    <div class="container mt-4 text-light">
+        <h1 style="text-align: center; padding-bottom: 20px;">Exoplanet Discoveries Overview</h1>
+        <div class="row">
+            <div class="col-md-6 text-light">
+                <h3 style="text-align: center">Exoplanet Type Distribution</h3>
+                <h4 style="text-align: center">Total Number of Planets by Type</h4>
+                <canvas style="height:18rem;background-color: #00000000;color:#FFFFFF" id="typePie"
+                        data-labels='{{ typeLabels|json_encode|e("html_attr") }}'
+                        data-values='{{ typeCounts|json_encode|e("html_attr") }}'></canvas>
+            </div>
+            <div class="col-md-6 text-light">
+                <h3 style="text-align: center">Planet Discoveries Over Time</h3>
+                <h4 style="text-align: center">Number of Planets Discovered Per Year</h4>
+                <canvas style="height:18rem;background-color: #00000000;color:#FFFFFF" id="byYearStacked"
+                        data-yearlabels='{{ yearLabels|json_encode|e("html_attr") }}'
+                        data-types='{{ yearTypes|json_encode|e("html_attr") }}'
+                        data-datasets='{{ yearDatasets|json_encode|e("html_attr") }}'></canvas>
+            </div>
+        </div>
+        <div id="chartExports" style="margin-top:10px; text-align: center;"></div>
+        <hr/>
+        <p style="font-size:0.85rem; color:#666; margin-top:1rem;">
+            <strong>Note:</strong> The habitability and radius categories are estimated using heuristics based on data
+            from
+            <a href="https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&config=PS"
+               target="_blank" rel="noopener noreferrer">
+                NASA Exoplanet Archive
+            </a>, primarily radius and mass. Planets with missing or uncertain values are grouped under "Unknown."
+        </p>
+    </div>
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('js/planet_stats.js') }}"></script>
+    {% endblock %}
+{% endblock %}

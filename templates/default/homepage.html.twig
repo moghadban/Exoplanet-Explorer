@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <main>
+        <div class="text-light text-lg-center">Discover insights into distant worlds, analyze planetary systems, and
+            explore potential habitability using real NASA Exoplanet Archive data.
+        </div>
+        <div class="main">
+            <div>
+                <div class="button-group">
+                    <div class="image-overlay">
+                        <a href="{{ path('planet_statistics') }}" class="btn-explore">
+                            <img src="./img/PS1.jpg" alt="Stats">
+                            <div class="planet-label">Planet Statistics</div>
+                        </a>
+                    </div>
+                    <div class="image-overlay">
+                        <a href="{{ path('planet_habitable') }}" class="btn-explore">
+                            <img src="./img/PH4.jpg" alt="Habitable">
+                            <div class="planet-label">Planet Habitability</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

@@ -51,6 +51,10 @@ jobs:
               id: install
               run: composer install --ansi --no-interaction --no-progress
 
+            - name: Make bin/console executable
+              if: steps.install.outcome == 'success'
+              run: chmod +x bin/console
+
             - name: Lint YAML files
               if: always() && steps.install.outcome == 'success'
               run: ./bin/console lint:yaml config --parse-tags

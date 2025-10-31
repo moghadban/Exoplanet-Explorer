@@ -3,14 +3,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Theme colors for dark background
     // -----------------------------
     const textColor = '#f5f5f5';
-    const gridColor = 'rgba(253,252,252,0.2)';
+    // Use a slight white tint for grid lines for visibility on dark theme
+    const gridColor = 'rgba(255, 255, 255, 0.2)';
     const axisBorderColor = '#e0e0e0';
     const legendLabelColor = '#ffffff';
-    const tooltipBg = 'rgba(243,234,234,0.95)';
-    const tooltipBorder = '#aaa';
+    // FIX: Use dark, semi-transparent background for tooltips
+    const tooltipBg = 'rgba(40, 40, 40, 0.95)';
+    const tooltipBorder = '#aaaaaa';
+
+    // Chart Colors
+    // Pie Chart Colors (Habitable vs Non-Habitable)
+    const habitableColor = '#14b8a6'; // Deep Teal
+    const nonHabitableColor = '#ec4899'; // Vivid Orange
+
+    // Bar Chart Colors (Radius Categories: Small, Medium, Large)
+    const radiusColors = ['#38bdf8', '#facc15', '#ec4899']; // Blue, Gold, Pink
 
     // -----------------------------
-    // Helper: normalize label
+    // Helper: normalize label (Kept, but not actively used in this file)
     // -----------------------------
     function normalizeLabel(label) {
         return label.trim();
@@ -32,8 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 labels: ['Habitable', 'Non-Habitable'],
                 datasets: [{
                     data: [habitableCount, nonHabitableCount],
-                    backgroundColor: ['#66ff99', '#ff6666'],
-                    // FIX 1: Set the border color directly on the dataset
+                    // Use new custom colors
+                    backgroundColor: [habitableColor, nonHabitableColor],
                     borderColor: '#ffffff',
                     borderWidth: 2,
                     hoverBorderColor: '#ffffcc',
@@ -49,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         labels: {color: legendLabelColor}
                     },
                     tooltip: {
+                        // Apply dark theme variables
                         backgroundColor: tooltipBg,
                         titleColor: textColor,
                         bodyColor: textColor,
@@ -61,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 elements: {
                     arc: {
-                        // FIX 2: This is a redundant setting but kept for safety. The dataset one should take precedence.
                         borderColor: '#ffffff',
                         borderWidth: 1.5,
                         shadowColor: '#ffffff40',
@@ -88,8 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 datasets: [{
                     label: 'Number of Planets',
                     data: Object.values(categories),
-                    backgroundColor: ['#ffcc00', '#66b2ff', '#ff6666'],
-                    // FIX 3: Set the border color directly on the dataset
+                    // Use new custom colors
+                    backgroundColor: radiusColors,
                     borderColor: '#ffffff',
                     borderWidth: 2,
                     hoverBorderColor: '#ffffcc',
@@ -101,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 plugins: {
                     legend: {display: false},
                     tooltip: {
+                        // Apply dark theme variables
                         backgroundColor: tooltipBg,
                         titleColor: textColor,
                         bodyColor: textColor,
@@ -119,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             borderColor: axisBorderColor,
                             lineWidth: 1.2
                         },
-                        // FIX 4: Explicitly set the border color for the axis line itself
                         border: {color: axisBorderColor}
                     },
                     y: {
@@ -131,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             borderColor: axisBorderColor,
                             lineWidth: 1.2
                         },
-                        // FIX 5: Explicitly set the border color for the axis line itself
                         border: {color: axisBorderColor}
                     }
                 },
@@ -140,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ... (rest of the code for export buttons is unchanged) ...
     // -----------------------------
     // Export Buttons Styling
     // -----------------------------
@@ -164,6 +172,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const pieExport = document.getElementById('habitableExports');
     if (pieExport && pieCanvas) {
         pieExport.innerHTML = '';
+        const habitableCount = parseInt(pieCanvas.dataset.habitable);
+        const nonHabitableCount = parseInt(pieCanvas.dataset.nonhabitable);
+
 
         const pngBtn = document.createElement('button');
         pngBtn.textContent = 'Download PNG';

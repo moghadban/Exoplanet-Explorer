@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const fallbackColor = "#232323";
 
-    // Universal dark-theme styles
+    // Universal dark-theme styles for Chart.js
     const textColor = "#f5f5f5";
     const gridColor = "rgba(255, 255, 255, 0.2)";
     const axisBorderColor = "#e0e0e0";
-    const tooltipBg = "rgba(40, 40, 40, 0.95)";
+    const tooltipBg = "rgba(40, 40, 40, 0.95)"; // Dark background for tooltips
     const tooltipBorder = "#aaaaaa";
     const legendLabelColor = "#ffffff";
 
@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     },
                     tooltip: {
+                        // Applying dark theme styles
                         backgroundColor: tooltipBg,
                         titleColor: textColor,
                         bodyColor: textColor,
@@ -139,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         labels: {color: legendLabelColor}
                     },
                     tooltip: {
+                        // Applying dark theme styles
                         backgroundColor: tooltipBg,
                         titleColor: textColor,
                         bodyColor: textColor,

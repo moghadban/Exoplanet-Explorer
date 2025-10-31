@@ -47,6 +47,9 @@ See https://symfony.com/doc/current/templates.html#template-inheritance-and-layo
                             <a href="{{ path('planet_statistics') }}" class="nav-link">Planet Statistics</a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ path('exoplanet_sorted') }}" class="nav-link">Planet Sorter</a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ path('planet_habitable') }}" class="nav-link">Planet Habitability</a>
                         </li>
                     </ul>
@@ -55,7 +58,7 @@ See https://symfony.com/doc/current/templates.html#template-inheritance-and-layo
         </nav>
     </header>
 {% endblock %}
-<div class="container body-container">
+<div class="container-fluid body-container">
     <h1 class="header_h1">Exoplanet Exploration Dashboard</h1>
     {% block body %}
         <div class="row">

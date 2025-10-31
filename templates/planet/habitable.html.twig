@@ -3,13 +3,13 @@
 {% block title %}Habitable Planet Dashboard{% endblock %}
 
 {% block body %}
-    <div class="container mt-4 text-light">
+    <div class="container-fluid mt-4 text-light">
         <h1 style="text-align: center; padding-bottom: 20px;">Habitable Planet Dashboard</h1>
         <!-- Pie Chart: Habitable vs Non-Habitable -->
         <div class="row">
             <div class="col-md-6 text-light">
                 <h4 style="text-align: center;">Habitable vs Non-Habitable</h4>
-                <canvas style="height:18rem;background-color: #00000000;color:#FFFFFF" id="habitablePie"
+                <canvas style="height:18rem;background-color: #00000000;" id="habitablePie"
                         data-habitable="{{ habitable|length }}"
                         data-nonhabitable="{{ nonHabitable|length }}"></canvas>
                 <div id="habitableExports" class="export-buttons"
@@ -18,7 +18,7 @@
             <!-- Bar Chart: Planets by Radius Category -->
             <div class="col-md-6 text-light">
                 <h4 style="text-align: center;">Planets by Radius Category</h4>
-                <canvas style="height:18.75rem;background-color: #00000000;color:#FFFFFF" id="radiusBar"
+                <canvas style="height:18.75rem;background-color: #00000000;" id="radiusBar"
                         data-categories="{{ radiusCategories|json_encode|raw|e('html_attr') }}"></canvas>
                 <div id="radiusExports" class="export-buttons"
                      style="padding-top:20px;margin-top:0.6rem;text-align: center;"></div>

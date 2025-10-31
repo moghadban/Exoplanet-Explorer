@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sorted Exoplanets{% endblock %}
+
+{% block body %}
+    <div class="container-fluid mt-5 text-white">
+        <h1 class="mb-3 text-center">Exoplanet Sorter</h1>
+
+        <div class="mb-4 text-center">
+            <label for="criterion">Sort by:</label>
+            <select id="criterion" class="form-select d-inline-block w-auto mx-2">
+                <option value="sy_dist">Distance (ly)</option>
+                <option value="pl_rade">Planet Radius (Earth radii)</option>
+                <option value="pl_bmasse">Planet Mass (Earth masses)</option>
+                <option value="disc_year">Discovery Year</option>
+            </select>
+
+            <select id="order" class="form-select d-inline-block w-auto mx-2">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+
+        <!-- Chart Visualization Area: Set to 70% of viewport height (70vh) to make the scatter plot taller and widen the Y-axis. -->
+        <div id="chartVisualizationArea" style="position:relative; height:70vh; width:100%; margin-bottom: 50px;">
+            <!-- Loading Indicator Container -->
+            <div id="loadingIndicator" class="text-center" style="padding-top: 100px;">
+                <div class="spinner-border text-light spinner-border-lg" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-4 fs-3">Please wait, fetching exoplanet data...</p>
+            </div>
+
+            <!-- Canvas is initially hidden. JS will show it on load completion. -->
+            <canvas id="sortedChart" class="d-none"></canvas>
+        </div>
+
+        <!-- Dedicated Table Container: This is placed outside the height-constrained chart area, allowing it to scroll normally. -->
+        <div id="exoplanetTableContainer" class="mt-5">
+            <!-- Table content will be dynamically generated here by JavaScript -->
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('js/exoplanet_sorter.js') }}" defer></script>
+{% endblock %}

@@ -8,8 +8,7 @@
 /public/bundles/
 /var/
 /vendor/
-.idea
-/.idea
+
 ###< symfony/framework-bundle ###
 
 ###> symfony/asset-mapper ###
@@ -35,7 +34,4 @@ phpstan.neon
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
-.idea/php.xml
-.idea/TestProject.iml
-/.idea/php.xml
-/.idea/TestProject.iml
+

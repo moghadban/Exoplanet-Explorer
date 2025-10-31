@@ -1,7 +1,17 @@
 
 # 🚀 Exoplanet Explorer: Installation & Setup Guide
 
-The **Exoplanet Explorer** is a modern, API-driven dashboard designed for astronomers and space enthusiasts to visualize and analyze data on newly discovered worlds. Built with the **Symfony Framework**, this application consumes external data sources to provide a rich, interactive interface for filtering, searching, and viewing detailed profiles of exoplanets. It’s a powerful tool for exploring astronomical data and understanding the characteristics of distant planetary systems.
+The **Exoplanet Explorer** is a modern, API-driven dashboard designed for astronomers and space enthusiasts to visualize and analyze data on newly discovered worlds. Built with the **Symfony Framework**, this application consumes external data sources to provide a rich, interactive interface for filtering, searching, and viewing detailed profiles of exoplanets.
+
+The dashboard's core functionality is divided into three key areas:
+
+* **Planet Statistics:** Provides visual distributions of the exoplanet catalog by planet type and discovery year, offering quick insights into overall trends.
+
+* **Habitability Dashboard:** Categorizes and visualizes planets based on estimated habitability criteria, giving a focused look at potentially life-supporting worlds.
+
+* **Exoplanet Sorter:** Allows users to dynamically organize the entire catalog using a single, explicit sorting criterion, such as **Distance (ly)**, **Planet Radius**, **Planet Mass**, or **Discovery Year**; in both ascending and descending order.
+
+It's a powerful tool for exploring astronomical data and understanding the characteristics of distant planetary systems.
 
 ## 🌟 Data Source
 

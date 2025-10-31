@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller;
 
 use App\Service\HabitablePlanetService;
@@ -20,17 +29,12 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 #[Route('/planets')]
 final class HabitablePlanetController extends AbstractController
 {
-    /**
-     * @param HabitablePlanetService $habitableService
-     */
     public function __construct(
-        private readonly HabitablePlanetService $habitableService
+        private readonly HabitablePlanetService $habitableService,
     ) {
     }
 
     /**
-     * @param string $_format
-     * @return Response
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
      * @throws RedirectionExceptionInterface
@@ -72,17 +76,17 @@ final class HabitablePlanetController extends AbstractController
         ];
 
         foreach ($planets as $planet) {
-            $r = isset($planet['pl_rade']) ? (float)$planet['pl_rade'] : 0;
+            $r = isset($planet['pl_rade']) ? (float) $planet['pl_rade'] : 0;
             if ($r < 1) {
-                $radiusCategories['Small (<1 R⊕)']++;
+                ++$radiusCategories['Small (<1 R⊕)'];
             } elseif ($r <= 2) {
-                $radiusCategories['Medium (1-2 R⊕)']++;
+                ++$radiusCategories['Medium (1-2 R⊕)'];
             } else {
-                $radiusCategories['Large (>2 R⊕)']++;
+                ++$radiusCategories['Large (>2 R⊕)'];
             }
         }
 
-        if ($_format === 'json') {
+        if ('json' === $_format) {
             return $this->json([
                 'allPlanets' => $planets,
                 'habitable' => $habitable,

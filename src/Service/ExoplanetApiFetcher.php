@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Service;
 
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -16,19 +25,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class ExoplanetApiFetcher
 {
-    /**
-     * @var HttpClientInterface
-     */
     private HttpClientInterface $client;
 
     /**
-     * private const API_URL = 'https://exoplanetarchive.ipac.caltech.edu/TAP/sync'
+     * private const API_URL = 'https://exoplanetarchive.ipac.caltech.edu/TAP/sync'.
      */
     private const API_URL = 'https://exoplanetarchive.ipac.caltech.edu/TAP/sync';
 
-    /**
-     * @param HttpClientInterface $client
-     */
     public function __construct(HttpClientInterface $client)
     {
         $this->client = $client;
@@ -38,7 +41,9 @@ class ExoplanetApiFetcher
      * Fetch exoplanet data from NASA Exoplanet Archive via ADQL query.
      *
      * @param int $limit Number of records to fetch (default 1000)
+     *
      * @return array<int,array<string,mixed>>
+     *
      * @throws TransportExceptionInterface
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface

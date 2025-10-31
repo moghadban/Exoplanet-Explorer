@@ -11,16 +11,33 @@
 
 namespace App\Twig;
 
+use Closure;
 use LogicException;
+use ReflectionException;
+use ReflectionFunction;
+use ReflectionFunctionAbstract;
+use ReflectionMethod;
+use ReflectionObject;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\ErrorHandler\ErrorRenderer\FileLinkFormatter;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Twig\Extension\AbstractExtension;
 use Twig\TemplateWrapper;
 use Twig\TwigFunction;
 
+use function array_slice;
+use function count;
+use function in_array;
+use function is_array;
+use function is_object;
 use function sprintf;
 use function Symfony\Component\String\u;
+
+use const ENT_COMPAT;
+use const ENT_SUBSTITUTE;
 
 /**
  * CAUTION: this is an extremely advanced Twig extension. It's used to get the
@@ -84,12 +101,18 @@ final class SourceCodeExtension extends AbstractExtension
 
         return sprintf(
             '<a href="%s" title="Click to open this file" class="file_link">%s</a> at line %d',
-            htmlspecialchars($link, \ENT_COMPAT | \ENT_SUBSTITUTE, $twig->getCharset()),
-            htmlspecialchars($text, \ENT_COMPAT | \ENT_SUBSTITUTE, $twig->getCharset()),
+            htmlspecialchars($link, ENT_COMPAT | ENT_SUBSTITUTE, $twig->getCharset()),
+            htmlspecialchars($text, ENT_COMPAT | ENT_SUBSTITUTE, $twig->getCharset()),
             $line,
         );
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws ReflectionException
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     public function showSourceCode(Environment $twig, string|TemplateWrapper $template): string
     {
         return $twig->render('debug/source_code.html.twig', [
@@ -100,6 +123,7 @@ final class SourceCodeExtension extends AbstractExtension
 
     /**
      * @return array{file_path: string, starting_line: int|false, source_code: string}|null
+     * @throws ReflectionException
      */
     private function getController(): ?array
     {
@@ -114,9 +138,10 @@ final class SourceCodeExtension extends AbstractExtension
         $fileName = $method->getFileName();
 
         if (false === $classCode = file($fileName)) {
-            throw new LogicException(
-                sprintf('There was an error while trying to read the contents of the "%s" file.', $fileName)
-            );
+            throw new LogicException(sprintf(
+                'There was an error while trying to read the contents of the "%s" file.',
+                $fileName
+            ));
         }
 
         $startLine = $method->getStartLine() - 1;
@@ -125,14 +150,14 @@ final class SourceCodeExtension extends AbstractExtension
         while ($startLine > 0) {
             $line = trim($classCode[$startLine - 1]);
 
-            if (\in_array($line, ['{', '}', ''], true)) {
+            if (in_array($line, ['{', '}', ''], true)) {
                 break;
             }
 
             --$startLine;
         }
 
-        $controllerCode = implode('', \array_slice($classCode, $startLine, $endLine - $startLine));
+        $controllerCode = implode('', array_slice($classCode, $startLine, $endLine - $startLine));
 
         return [
             'file_path' => $fileName,
@@ -145,21 +170,22 @@ final class SourceCodeExtension extends AbstractExtension
      * Gets a reflector for a callable.
      *
      * This logic is copied from Symfony\Component\HttpKernel\Controller\ControllerResolver::getArguments
-     * @throws \ReflectionException
+     *
+     * @throws ReflectionException
      */
-    private function getCallableReflector(callable $callable): \ReflectionFunctionAbstract
+    private function getCallableReflector(callable $callable): ReflectionFunctionAbstract
     {
-        if (\is_array($callable)) {
-            return new \ReflectionMethod($callable[0], $callable[1]);
+        if (is_array($callable)) {
+            return new ReflectionMethod($callable[0], $callable[1]);
         }
 
-        if (\is_object($callable) && !$callable instanceof \Closure) {
-            $r = new \ReflectionObject($callable);
+        if (is_object($callable) && !$callable instanceof Closure) {
+            $r = new ReflectionObject($callable);
 
             return $r->getMethod('__invoke');
         }
 
-        return new \ReflectionFunction($callable);
+        return new ReflectionFunction($callable);
     }
 
     /**
@@ -192,7 +218,7 @@ final class SourceCodeExtension extends AbstractExtension
             return u($lineOfCode)->isEmpty() || u($lineOfCode)->startsWith('    ');
         });
 
-        $codeIsIndented = \count($indentedOrBlankLines) === \count($codeLines);
+        $codeIsIndented = count($indentedOrBlankLines) === count($codeLines);
 
         if ($codeIsIndented) {
             $unindentedLines = array_map(static function ($lineOfCode) {

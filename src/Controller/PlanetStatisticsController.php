@@ -11,6 +11,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Controller;
 
 use App\Service\PlanetStatisticsService;
@@ -32,18 +41,12 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 #[Route('/planets')]
 final class PlanetStatisticsController extends AbstractController
 {
-    /**
-     * @param PlanetStatisticsService $statsService
-     */
     public function __construct(
-        private readonly PlanetStatisticsService $statsService
+        private readonly PlanetStatisticsService $statsService,
     ) {
     }
 
-
     /**
-     * @param string $_format
-     * @return Response
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
      * @throws RedirectionExceptionInterface
@@ -87,7 +90,7 @@ final class PlanetStatisticsController extends AbstractController
         $yearLabels = [];
         $yearDatasets = [];
         foreach ($byYear as $year => $map) {
-            $yearLabels[] = $year === 0 ? 'Unknown' : (string) $year;
+            $yearLabels[] = 0 === $year ? 'Unknown' : (string) $year;
 
             $row = [];
             foreach ($allTypes as $type) {
@@ -98,7 +101,7 @@ final class PlanetStatisticsController extends AbstractController
         }
 
         // Render HTML or JSON depending on format
-        if ($_format === 'json') {
+        if ('json' === $_format) {
             return $this->json([
                 'typeLabels' => $typeLabels,
                 'typeCounts' => $typeCounts,

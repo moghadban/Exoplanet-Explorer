@@ -20,7 +20,9 @@ COMMENT;
 
 return (new PhpCsFixer\Config())
     ->setFinder(
-        PhpCsFixer\Finder::create()->in(['src', 'tests'])->append([__FILE__])
+        PhpCsFixer\Finder::create()
+            ->in(['src/Controller', 'src/Service'])
+            ->append([__FILE__])
     )
     ->setRiskyAllowed(true)
     ->setRules([
@@ -32,6 +34,7 @@ return (new PhpCsFixer\Config())
         'php_unit_strict' => true,
         'strict_comparison' => true,
         'strict_param' => true,
+        'concat_space' => ['spacing' => 'one'],
     ])
-    ->setCacheFile(__DIR__.'/var/.php-cs-fixer.cache')
+    ->setCacheFile(__DIR__ . '/var/.php-cs-fixer.cache')
 ;

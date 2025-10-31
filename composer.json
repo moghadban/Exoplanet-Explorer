@@ -49,6 +49,7 @@
     "require-dev": {
         "dama/doctrine-test-bundle": "^8.0.2",
         "doctrine/doctrine-fixtures-bundle": "^4.1",
+        "friendsofphp/php-cs-fixer": "^3.89",
         "phpstan/phpstan": "^2.0",
         "phpstan/phpstan-doctrine": "^2.0",
         "phpstan/phpstan-symfony": "^2.0",
@@ -99,11 +100,13 @@
         "phpcs": "./vendor/bin/phpcs",
         "phpcbf": "./vendor/bin/phpcbf",
         "phpstan": "./vendor/bin/phpstan",
+        "phpfix": "./vendor/bin/php-cs-fixer fix",
         "analyze": [
             "@test",
             "@phpcs",
             "@phpcbf",
-            "@phpstan"
+            "@phpstan",
+            "@phpfix"
         ],
         "auto-scripts": {
             "-r \"@rename('.env.local.demo', '.env.local');\"": "php-script",
